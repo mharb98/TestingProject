@@ -39,7 +39,7 @@
  *
  */
 
-
+package org.jfree.data;
 
 /**
  * A general purpose interface for accessing a value.

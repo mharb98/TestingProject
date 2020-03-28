@@ -34,7 +34,7 @@
  *
  */
 
-
+package org.jfree.data;
 
 /**
  * A (key, value) pair.

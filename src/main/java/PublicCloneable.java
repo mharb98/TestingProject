@@ -33,7 +33,7 @@
  * Contributors:     -;
  */
 
-
+package org.jfree.chart.util;
 
 /**
  * An interface that exposes the clone() method.  In order to support the 
