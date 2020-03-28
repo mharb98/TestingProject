@@ -4,7 +4,9 @@ import org.jfree.data.DefaultKeyedValue;
 import org.junit.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
+import org.mockito.Mockito.*;
 import org.hamcrest.CoreMatchers.*;
+import org.jfree.chart.util.Args;
 
 public class TestingDefaultKeyedValue {
 
@@ -18,7 +20,17 @@ public class TestingDefaultKeyedValue {
 
 	@Test
 	public void testDefaultKeyedValue() {
-		assertTrue(true);
+		//Testing the constructor for initializing keys,values
+		Args mockArgs = Mockito.mock(Args.class);
+		Object param = null;
+		Mockito.doNothing().when(mockArgs).nullNotPermitted("key","key");
+		DefaultKeyedValue d1 = new DefaultKeyedValue("key",100);
+		assertEquals("key",d1.getKey());
+		assertEquals(100,d1.getValue());
+		
+		DefaultKeyedValue d2 = new DefaultKeyedValue("key",null);
+		assertEquals("key",d2.getKey());
+		assertEquals(null,d2.getValue());
 	}
 
 	@Test
