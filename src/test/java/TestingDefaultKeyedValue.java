@@ -63,12 +63,6 @@ public class TestingDefaultKeyedValue {
 		d.setValue(null);
 		Number n2 = d.getValue();
 		assertEquals(n2,null);
-		
-		//testing for invalid value
-		//Found an issue that valye can be set to null,document stated the opposite
-		DefaultKeyedValue k = new DefaultKeyedValue(45,3.5);
-		k.setValue(null);
-		assertTrue(k.getValue()==null);
 	}
 
 	@Test
