@@ -34,7 +34,7 @@
  *
  */
 
-
+package org.jfree.data;
 
 import java.io.Serializable;
 import org.jfree.chart.util.Args;
