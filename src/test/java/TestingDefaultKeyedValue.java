@@ -1,11 +1,7 @@
 import static org.junit.Assert.*;
-
 import org.jfree.data.DefaultKeyedValue;
 import org.junit.Test;
-import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.mockito.Mockito.*;
-import org.hamcrest.CoreMatchers.*;
 import org.jfree.chart.util.Args;
 
 public class TestingDefaultKeyedValue {
@@ -22,9 +18,11 @@ public class TestingDefaultKeyedValue {
 	public void testDefaultKeyedValue() {
 		//Testing the constructor for initializing keys,values
 		Args mockArgs = Mockito.mock(Args.class);
-		Object param = null;
 		Mockito.doNothing().when(mockArgs).nullNotPermitted("key","key");
-		DefaultKeyedValue d1 = new DefaultKeyedValue("key",100);
+		
+		int k = 100;
+		
+		DefaultKeyedValue d1 = new DefaultKeyedValue("key",k);
 		assertEquals("key",d1.getKey());
 		assertEquals(100,d1.getValue());
 		
@@ -58,11 +56,11 @@ public class TestingDefaultKeyedValue {
 		DefaultKeyedValue d = new DefaultKeyedValue("key",100);
 		d.setValue(50.0);
 		Number n = d.getValue();
-		assertEquals(n,50.0);
+		assertEquals(50.0,n);
 		
 		d.setValue(null);
 		Number n2 = d.getValue();
-		assertEquals(n2,null);
+		assertEquals(null,n2);
 	}
 
 	@Test
@@ -71,7 +69,8 @@ public class TestingDefaultKeyedValue {
 		 * Testing for two self made equal objects for equality
 		 * Using setValue to alter Value of object 2 to test for Value inequality
 		 * Using Clone method to check for equality
-		 * Using Two different keyed objects to test for ket inequality*/
+		 * Using Two different keyed objects to test for ket inequality
+		 * Testing for an object not instance of defaultKeyedValue*/
 		DefaultKeyedValue d1 = new DefaultKeyedValue("key",100);
 		DefaultKeyedValue d2 = new DefaultKeyedValue("key",100);
 		DefaultKeyedValue d4 = new DefaultKeyedValue("key2",100);
@@ -84,6 +83,12 @@ public class TestingDefaultKeyedValue {
 		assertTrue(d3.equals(d1));
 		
 		assertFalse(d1.equals(d4));
+		
+		assertTrue(d1.equals(d1));
+		
+		Integer k = 100;
+		
+		assertFalse(d1.equals(k));
 		
 	}
 
