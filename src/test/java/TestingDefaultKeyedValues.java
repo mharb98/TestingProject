@@ -13,12 +13,85 @@ import org.jfree.chart.util.Args;
 
 
 public class TestingDefaultKeyedValues {
-
+	
 	@Test
-	public void testHashCode() {
-		assertTrue(true);
+	public void testDefaultKeyedValues() {
+		//Testing Constructor for lists sizes
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		int sizeIndexMap = d1.getItemCount();
+		
+		assertTrue(sizeIndexMap == 0);
+		
+		ArrayList<Comparable> array = (ArrayList<Comparable>) d1.getKeys();
+		
+		assertTrue(array.size() == 0);
+	}
+	
+	@Test
+	public void testAddValueComparableDouble() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		double dummy1 = 100.0;
+		double dummy2 = 100.1;
+		double dummy3 = 100.2;
+		
+		d1.addValue("Key1",dummy1);
+		d1.addValue("Key2",dummy2);
+		d1.addValue("Key3",dummy3);
+		
+		assertTrue(d1.getItemCount() == 3);
+		
+		assertEquals(100.0,d1.getValue(0));
 	}
 
+	@Test
+	public void testAddValueComparableNumber() {
+DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		Double dummy1 = 100.0;
+		Integer dummy2 = 100;
+		Integer dummy3 = 200;
+		
+		d1.addValue("Key1",dummy1);
+		d1.addValue("Key2",dummy2);
+		d1.addValue("Key3",dummy3);
+		
+		assertTrue(d1.getItemCount() == 3);
+		
+		assertEquals(100,d1.getValue(1));
+	}
+	
+	@Test
+	public void testClear() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		d1.addValue("key1", 100.0);
+		d1.addValue("key2", 100.3);
+		d1.addValue("key3", 100.5);
+		d1.addValue("key4", 100.6);
+		
+		d1.clear();
+		
+		ArrayList<Comparable> array = (ArrayList<Comparable>) d1.getKeys();
+		
+		assertTrue(d1.getItemCount() == 0);
+		assertTrue(array.size() == 0);
+	}
+	
+	@Test
+	public void testClone() throws CloneNotSupportedException {
+		DefaultKeyedValues d = new DefaultKeyedValues();
+		
+		d.addValue("key1", 100);
+		d.addValue("key1", 100);
+		d.addValue("key1", 100);
+		
+		DefaultKeyedValues d2 = (DefaultKeyedValues) d.clone();
+		
+		assertTrue(d2.getKeys().size() == d.getKeys().size());
+		assertTrue(d2.getItemCount() == d.getItemCount());
+	}
+	
 	@Test
 	public void testEquals() throws CloneNotSupportedException {
 		/*Testing by making two equal values
@@ -38,7 +111,7 @@ public class TestingDefaultKeyedValues {
 		d2.addValue("key3", 100);
 		
 		DefaultKeyedValues d3 = new DefaultKeyedValues();
-		d3.addValue("key4", 100);
+		d3.addValue("key1", 105);
 		d3.addValue("key2", 100);
 		d3.addValue("key3", 100);
 		
@@ -57,34 +130,43 @@ public class TestingDefaultKeyedValues {
 		assertFalse(d1.equals(I));
 		
 	}
-
+	
 	@Test
-	public void testClone() throws CloneNotSupportedException {
-		DefaultKeyedValues d = new DefaultKeyedValues();
+	public void testGetIndex() {
+		Args mockArgs = Mockito.mock(Args.class);
+		Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
 		
-		d.addValue("key1", 100);
-		d.addValue("key1", 100);
-		d.addValue("key1", 100);
-		
-		DefaultKeyedValues d2 = (DefaultKeyedValues) d.clone();
-		
-		assertTrue(d2.getKeys().size() == d.getKeys().size());
-		assertTrue(d2.getItemCount() == d.getItemCount());
-	}
-
-	@Test
-	public void testDefaultKeyedValues() {
-		//Testing Constructor for lists sizes
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
-		int sizeIndexMap = d1.getItemCount();
 		
-		assertTrue(sizeIndexMap == 0);
+		d1.addValue("key1", 100.0);
+		d1.addValue("key2", 340.3);
+		d1.addValue("key3", 100000);
+		d1.addValue("key4", 2.3);
+		d1.addValue("key5", 600);
 		
-		ArrayList<Comparable> array = (ArrayList<Comparable>) d1.getKeys();
+		assertTrue(true);
 		
-		assertTrue(array.size() == 0);
-	}
+		//Testing for key in the beginning
+		int n = d1.getIndex("key1");
 
+		assertTrue(n == 0);
+		
+		//Testing for key in the end
+		int n2 = d1.getIndex("key5");
+		
+		assertTrue(n2 == 4);
+		
+		//Testing for normal use
+		int n3 = d1.getIndex("key3");
+				
+		assertTrue(n3 == 2);
+		
+		//Testing for unavailable key
+		int n4 = d1.getIndex("key535");
+		
+		assertTrue(n4 == -1);
+	}
+	
 	@Test
 	public void testGetItemCount() {
 		/*
@@ -120,6 +202,21 @@ public class TestingDefaultKeyedValues {
 		int n4 = d1.getItemCount(); 
 		
 		assertTrue(n4 == 0);
+	}
+	
+	@Test
+	public void testGetKey() {
+		assertTrue(true);
+	}
+
+	@Test
+	public void testGetKeys() {
+		assertTrue(true);
+	}
+	
+	@Test
+	public void testGetValueComparable() {
+		assertTrue(true);
 	}
 	
 	@Test(expected = java.lang.IndexOutOfBoundsException.class)
@@ -180,75 +277,9 @@ public class TestingDefaultKeyedValues {
 		Number n3 = d1.getValue(2);
 		assertEquals(100000.0,n3);
 	}
-
+	
 	@Test
-	public void testGetKey() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testGetIndex() {
-		Args mockArgs = Mockito.mock(Args.class);
-		Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
-		
-		DefaultKeyedValues d1 = new DefaultKeyedValues();
-		
-		d1.addValue("key1", 100.0);
-		d1.addValue("key2", 340.3);
-		d1.addValue("key3", 100000);
-		d1.addValue("key4", 2.3);
-		d1.addValue("key5", 600);
-		
-		assertTrue(true);
-		
-		//Testing for key in the beginning
-		int n = d1.getIndex("key1");
-
-		assertTrue(n == 0);
-		
-		//Testing for key in the end
-		int n2 = d1.getIndex("key5");
-		
-		assertTrue(n2 == 4);
-		
-		//Testing for normal use
-		int n3 = d1.getIndex("key3");
-				
-		assertTrue(n3 == 2);
-		
-		//Testing for unavailable key
-		int n4 = d1.getIndex("key535");
-		
-		assertTrue(n4 == -1);
-	}
-
-	@Test
-	public void testGetKeys() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testGetValueComparable() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testAddValueComparableDouble() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testAddValueComparableNumber() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testSetValueComparableDouble() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testSetValueComparableNumber() {
+	public void testHashCode() {
 		assertTrue(true);
 	}
 
@@ -261,7 +292,7 @@ public class TestingDefaultKeyedValues {
 	public void testInsertValueIntComparableNumber() {
 		assertTrue(true);
 	}
-
+	
 	@Test
 	public void testRemoveValueInt() {
 		assertTrue(true);
@@ -271,22 +302,15 @@ public class TestingDefaultKeyedValues {
 	public void testRemoveValueComparable() {
 		assertTrue(true);
 	}
+	
+	@Test
+	public void testSetValueComparableDouble() {
+		assertTrue(true);
+	}
 
 	@Test
-	public void testClear() {
-		DefaultKeyedValues d1 = new DefaultKeyedValues();
-		
-		d1.addValue("key1", 100.0);
-		d1.addValue("key2", 100.3);
-		d1.addValue("key3", 100.5);
-		d1.addValue("key4", 100.6);
-		
-		d1.clear();
-		
-		ArrayList<Comparable> array = (ArrayList<Comparable>) d1.getKeys();
-		
-		assertTrue(d1.getItemCount() == 0);
-		assertTrue(array.size() == 0);
+	public void testSetValueComparableNumber() {
+		assertTrue(true);
 	}
 
 	@Test
