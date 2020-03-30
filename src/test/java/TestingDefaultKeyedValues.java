@@ -21,14 +21,10 @@ public class TestingDefaultKeyedValues {
 		int sizeIndexMap = d1.getItemCount();
 		
 		assertTrue(sizeIndexMap == 0);
-		
-		ArrayList<Comparable> array = (ArrayList<Comparable>) d1.getKeys();
-		
-		assertTrue(array.size() == 0);
 	}
 	
 	@Test
-	public void testAddValueComparableDouble() {
+	public void testAddValueComparableDoubleNull() {
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		double dummy1 = 100.0;
@@ -37,16 +33,14 @@ public class TestingDefaultKeyedValues {
 		
 		d1.addValue("Key1",dummy1);
 		d1.addValue("Key2",dummy2);
-		d1.addValue("Key3",dummy3);
+		d1.addValue("Key3",null);
 		
 		assertTrue(d1.getItemCount() == 3);
-		
-		assertEquals(100.0,d1.getValue(0));
 	}
-
+	
 	@Test
 	public void testAddValueComparableNumber() {
-DefaultKeyedValues d1 = new DefaultKeyedValues();
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		Double dummy1 = 100.0;
 		Integer dummy2 = 100;
@@ -57,9 +51,23 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 		d1.addValue("Key3",dummy3);
 		
 		assertTrue(d1.getItemCount() == 3);
+	}
+	
+	@Test
+	public void testAddValueComparableNumberGetValue() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		Double dummy1 = 100.0;
+		Integer dummy2 = 100;
+		Integer dummy3 = 200;
+		
+		d1.addValue("Key1",dummy1);
+		d1.addValue("Key2",dummy2);
+		d1.addValue("Key3",dummy3);
 		
 		assertEquals(100,d1.getValue(1));
 	}
+	
 	
 	@Test
 	public void testClear() {
@@ -94,12 +102,6 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 	
 	@Test
 	public void testEquals() throws CloneNotSupportedException {
-		/*Testing by making two equal values
-		 * Testing by making unequal values
-		 * Testing by using clone
-		 * Testing for an object not instance of DefaultKeyedValues
-		 */
-		
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		d1.addValue("key1", 100);
 		d1.addValue("key2", 100);
@@ -110,29 +112,39 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 		d2.addValue("key2", 100);
 		d2.addValue("key3", 100);
 		
+		assertTrue(d1.equals(d2));
+	}
+	
+	@Test
+	public void testNotEquals() throws CloneNotSupportedException {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key1", 100);
+		d1.addValue("key2", 100);
+		d1.addValue("key3", 100);
+		
 		DefaultKeyedValues d3 = new DefaultKeyedValues();
 		d3.addValue("key1", 105);
 		d3.addValue("key2", 100);
 		d3.addValue("key3", 100);
+	
+		assertFalse(d1.equals(d3));
+	}
+	
+	
+	@Test
+	public void testEqualsClone() throws CloneNotSupportedException {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key1", 100);
+		d1.addValue("key2", 100);
+		d1.addValue("key3", 100);
 		
 		DefaultKeyedValues d4 = (DefaultKeyedValues) d1.clone();
-		
-		Integer I = 4;
-		
-		assertTrue(d1.equals(d1));
-		
-		assertTrue(d1.equals(d2));
-		
-		assertFalse(d1.equals(d3));
-		
 		assertTrue(d1.equals(d4));
-		
-		assertFalse(d1.equals(I));
 		
 	}
 	
 	@Test
-	public void testGetIndex() {
+	public void testGetIndexBegin() {
 		Args mockArgs = Mockito.mock(Args.class);
 		Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
 		
@@ -144,22 +156,62 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 		d1.addValue("key4", 2.3);
 		d1.addValue("key5", 600);
 		
-		assertTrue(true);
-		
 		//Testing for key in the beginning
 		int n = d1.getIndex("key1");
 
 		assertTrue(n == 0);
+	}
+	
+	@Test
+	public void testGetIndexEnd() {
+		Args mockArgs = Mockito.mock(Args.class);
+		//Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
+		
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		d1.addValue("key1", 100.0);
+		d1.addValue("key2", 340.3);
+		d1.addValue("key3", 100000);
+		d1.addValue("key4", 2.3);
+		d1.addValue("key5", 600);
 		
 		//Testing for key in the end
 		int n2 = d1.getIndex("key5");
 		
 		assertTrue(n2 == 4);
+	}
+	
+	@Test
+	public void testGetIndexNormal() {
+		Args mockArgs = Mockito.mock(Args.class);
+	//	Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
+		
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		d1.addValue("key1", 100.0);
+		d1.addValue("key2", 340.3);
+		d1.addValue("key3", 100000);
+		d1.addValue("key4", 2.3);
+		d1.addValue("key5", 600);
 		
 		//Testing for normal use
 		int n3 = d1.getIndex("key3");
 				
 		assertTrue(n3 == 2);
+	}
+	
+	@Test
+	public void testGetIndexUnavailable() {
+		Args mockArgs = Mockito.mock(Args.class);
+	//	Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
+		
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		d1.addValue("key1", 100.0);
+		d1.addValue("key2", 340.3);
+		d1.addValue("key3", 100000);
+		d1.addValue("key4", 2.3);
+		d1.addValue("key5", 600);
 		
 		//Testing for unavailable key
 		int n4 = d1.getIndex("key535");
@@ -168,16 +220,8 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 	}
 	
 	@Test
-	public void testGetItemCount() {
-		/*
-		 * Testing for empty list
-		 * Testing by using addValue method
-		 * Testing by using setValue method
-		 * Testing after using clear method*/
-		
+	public void testGetItemCountAddValue() {
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
-		int n = d1.getItemCount();
-		assertTrue(n == 0);
 		
 		double dummy = 3.5;
 		
@@ -188,6 +232,13 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 		int n2 = d1.getItemCount();
 		
 		assertTrue(n2 == 3);
+	}
+	
+	@Test
+	public void testGetItemCountSetValue() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		double dummy = 3.5;
 		
 		d1.setValue("key4", 1000);
 		d1.setValue("key5", 100.4);
@@ -195,7 +246,27 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		int n3 = d1.getItemCount();
 		
-		assertTrue(n3 == 6);
+		assertTrue(n3 == 3);
+		
+	}
+	
+	@Test
+	public void testGetItemCountEmpty() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		int n = d1.getItemCount();
+		
+		assertTrue(n == 0);
+	}
+	
+	@Test
+	public void testGetItemCountClear() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		double dummy = 3.5;
+		
+		d1.addValue("key1", 100);
+		d1.addValue("key2", 100.5);
+		d1.addValue("key3", dummy);
 		
 		d1.clear();
 		
@@ -254,7 +325,7 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 	}
 	
 	@Test
-	public void testGetValueInt() {
+	public void testGetValueIntBegin() {
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		Double dummy = 300.4;
@@ -268,14 +339,40 @@ DefaultKeyedValues d1 = new DefaultKeyedValues();
 		//Testing For lower bound
 		Number n = d1.getValue(0);
 		assertEquals(100.0,n);
+	}
+	
+	@Test
+	public void testGetValueIntNormal() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
-		//Testing for upper bound
-		Number n2 = d1.getValue(3);
-		assertEquals(300,n2);
+		Double dummy = 300.4;
+		Integer dummy2 = 300; 
+		
+		d1.addValue("key1", 100.0);
+		d1.addValue(dummy, 340.3);
+		d1.addValue(dummy2, 100000);
+		d1.addValue("key2", dummy2);
 		
 		//Testing for normal use
 		Number n3 = d1.getValue(2);
 		assertEquals(100000.0,n3);
+	}
+	
+	@Test
+	public void testGetValueIntEnd() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		Double dummy = 300.4;
+		Integer dummy2 = 300; 
+		
+		d1.addValue("key1", 100.0);
+		d1.addValue(dummy, 340.3);
+		d1.addValue(dummy2, 100000);
+		d1.addValue("key2", dummy2);
+		
+		//Testing for upper bound
+		Number n2 = d1.getValue(3);
+		assertEquals(300,n2);
 	}
 	
 	@Test
