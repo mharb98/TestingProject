@@ -1,9 +1,12 @@
 import static org.junit.Assert.*;
 import org.jfree.data.DefaultKeyedValue;
+import org.jfree.data.KeyedValue;
+import org.junit.After;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.jfree.chart.util.Args;
 
+//The whole class is tested using the base choice criterion
 public class TestingDefaultKeyedValue {
 
 	@Test
@@ -96,6 +99,14 @@ public class TestingDefaultKeyedValue {
 		DefaultKeyedValue d4 = new DefaultKeyedValue("key",100);
 		
 		d4.setValue(50.0);
+		
+		assertFalse(d1.equals(d4));
+	}
+	
+	@Test
+	public void testEqualsObjectNotEquakey() throws CloneNotSupportedException {
+		DefaultKeyedValue d1 = new DefaultKeyedValue("key",100);
+		DefaultKeyedValue d4 = new DefaultKeyedValue("key2",100);
 		
 		assertFalse(d1.equals(d4));
 	}

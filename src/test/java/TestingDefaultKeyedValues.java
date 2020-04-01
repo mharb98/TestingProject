@@ -24,7 +24,7 @@ public class TestingDefaultKeyedValues {
 	}
 	
 	@Test
-	public void testAddValueComparableDoubleNull() {
+	public void testAddValueComparableDouble() {
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		double dummy1 = 100.0;
@@ -52,22 +52,6 @@ public class TestingDefaultKeyedValues {
 		
 		assertTrue(d1.getItemCount() == 3);
 	}
-	
-	@Test
-	public void testAddValueComparableNumberGetValue() {
-		DefaultKeyedValues d1 = new DefaultKeyedValues();
-		
-		Double dummy1 = 100.0;
-		Integer dummy2 = 100;
-		Integer dummy3 = 200;
-		
-		d1.addValue("Key1",dummy1);
-		d1.addValue("Key2",dummy2);
-		d1.addValue("Key3",dummy3);
-		
-		assertEquals(100,d1.getValue(1));
-	}
-	
 	
 	@Test
 	public void testClear() {
@@ -232,22 +216,6 @@ public class TestingDefaultKeyedValues {
 		int n2 = d1.getItemCount();
 		
 		assertTrue(n2 == 3);
-	}
-	
-	@Test
-	public void testGetItemCountSetValue() {
-		DefaultKeyedValues d1 = new DefaultKeyedValues();
-		
-		double dummy = 3.5;
-		
-		d1.setValue("key4", 1000);
-		d1.setValue("key5", 100.4);
-		d1.setValue("key6", dummy);
-		
-		int n3 = d1.getItemCount();
-		
-		assertTrue(n3 == 3);
-		
 	}
 	
 	@Test
