@@ -1,17 +1,13 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import javax.swing.SortOrder;
-
-import org.jfree.data.DefaultKeyedValue;
+import org.jfree.chart.util.SortOrder;
 import org.jfree.data.DefaultKeyedValues;
 import org.junit.Test;
-import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.mockito.Mockito.*;
-import org.hamcrest.CoreMatchers.*;
-import org.jfree.chart.util.Args;
 
 
 public class TestingDefaultKeyedValues {
@@ -249,17 +245,42 @@ public class TestingDefaultKeyedValues {
 	
 	@Test
 	public void testGetKey() {
-		assertTrue(true);
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key1", 100);
+		assertEquals("key1", d1.getKey(0));
 	}
-
-	@Test
-	public void testGetKeys() {
-		assertTrue(true);
+	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testGetNullKey() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue(null, 100);
+		d1.getKey(0);
 	}
 	
 	@Test
-	public void testGetValueComparable() {
-		assertTrue(true);
+	public void testGetKeys() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key1", 100);
+		d1.addValue("key2", 101);
+		d1.addValue("key3", 102);
+		
+		ArrayList<String> expected_list= new ArrayList<String>();
+		expected_list.add("key1");
+		expected_list.add("key2");
+		expected_list.add("key3");
+		
+		assertEquals(d1.getKeys(), expected_list);
+	}
+	
+	@Test
+	public void testGetValueByKey() {
+		DefaultKeyedValues d1 = Mockito.spy(DefaultKeyedValues.class);
+		
+		d1.addValue("key1", 100.0);
+		Mockito.when(d1.getIndex("key1")).thenReturn(0);
+		
+		Number actual_value = d1.getValue("key1");
+		assertEquals(100.0, actual_value);
 	}
 	
 	@Test(expected = java.lang.IndexOutOfBoundsException.class)
@@ -348,48 +369,160 @@ public class TestingDefaultKeyedValues {
 	}
 	
 	@Test
-	public void testHashCode() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testInsertValueIntComparableDouble() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testInsertValueIntComparableNumber() {
-		assertTrue(true);
+	public void testHashCode_OneKey() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key1", 100);
+		assertEquals(d1.hashCode(), 3288529);
 	}
 	
 	@Test
-	public void testRemoveValueInt() {
-		assertTrue(true);
+	public void testHashCode_MultipleKeys() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key1", 100);
+		d1.addValue("key2", 200);
+		assertEquals(d1.hashCode(), 105232898);
 	}
 
-	@Test
-	public void testRemoveValueComparable() {
-		assertTrue(true);
+	@Test(expected = IllegalArgumentException.class)
+	public void testInsertValue_invalidPosition() {
+		DefaultKeyedValues d1 = Mockito.spy(DefaultKeyedValues.class);
+		
+		d1.setValue("key1", 100.0);
+		d1.setValue("key3", 300.0);
+		
+		d1.insertValue(4, "key1", 200.0);
 	}
 	
 	@Test
-	public void testSetValueComparableDouble() {
-		assertTrue(true);
+	public void testInsertValue_ExistingKey() {
+		DefaultKeyedValues d1 = Mockito.spy(DefaultKeyedValues.class);
+		
+		d1.setValue("key1", 100.0);
+		d1.setValue("key3", 300.0);
+		
+		Mockito.when(d1.getItemCount()).thenReturn(2);
+		Mockito.when(d1.getIndex("key1")).thenReturn(0);
+		
+		d1.insertValue(0, "key1", 200.0);
+		assertEquals(d1.getValue("key1"), 200.0);
+	}
+	
+	@Test
+	public void testInsertValue_NewKey() {
+		DefaultKeyedValues d1 = Mockito.spy(DefaultKeyedValues.class);
+		
+		d1.setValue("key1", 100.0);
+		d1.setValue("key2", 200.0);
+		d1.setValue("key3", 300.0);
+		
+		Mockito.when(d1.getItemCount()).thenReturn(2);
+		Mockito.when(d1.getIndex("key1")).thenReturn(0);
+		
+		d1.insertValue(2, "key1", 200.0);
+		assertEquals(d1.getValue("key1"), 200.0);
+	}
+	
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testRemoveValue_UnvalidIndex() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		d1.setValue("key1", 100.0);
+		d1.setValue("key2", 200.0);
+		d1.setValue("key3", 300.0);
+		
+		d1.removeValue(4);
+	}
+	
+	@Test
+	public void testRemoveValue_Index() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		d1.setValue("key1", 100.0);
+		d1.setValue("key2", 200.0);
+		d1.setValue("key3", 300.0);
+		
+		d1.removeValue(2);
+		assertEquals(d1.getItemCount(), 2);
 	}
 
 	@Test
-	public void testSetValueComparableNumber() {
-		assertTrue(true);
+	public void testRemoveValue_Key() {
+		DefaultKeyedValues d1 = Mockito.spy(DefaultKeyedValues.class);
+		
+		d1.setValue("key1", 100.0);
+		d1.setValue("key2", 200.0);
+		d1.setValue("key3", 300.0);
+		
+		Mockito.when(d1.getIndex("key2")).thenReturn(1);
+		
+		d1.removeValue("key2");
+		assertEquals(d1.getItemCount(), 2);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveValue_UnvalidKey() {
+		DefaultKeyedValues d1 = Mockito.spy(DefaultKeyedValues.class);
+		
+		d1.setValue("key1", 100.0);
+		d1.setValue("key2", 200.0);
+		d1.setValue("key3", 300.0);
+		
+		d1.removeValue("key6");
+	}
+	
+	@Test
+	public void testSetValue_Double() {
+		DefaultKeyedValues d1 = Mockito.mock(DefaultKeyedValues.class);
+		Mockito.when(d1.getIndex("key1")).thenReturn(0);
+		Mockito.doCallRealMethod().when(d1).setValue("key1", 100.0);
+		Mockito.when(d1.getValue(0)).thenReturn(100.0);
+		d1.setValue("key1", 100.0);
+		assertEquals(d1.getValue(0), 100.0);
+	}
+
+	@Test
+	public void testSetValue_Number() {
+		DefaultKeyedValues d1 = Mockito.mock(DefaultKeyedValues.class);
+		Mockito.when(d1.getIndex("key1")).thenReturn(0);
+		Mockito.doCallRealMethod().when(d1).setValue("key1", 100);
+		Mockito.when(d1.getValue(0)).thenReturn(100);
+		d1.setValue("key1", 100);
+		assertEquals(d1.getValue(0), 100);
 	}
 
 	@Test
 	public void testSortByKeys() {
-		assertTrue(true);		
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key2", 100);
+		d1.addValue("key3", 200);
+		d1.addValue("key1", 300);
+		
+		DefaultKeyedValues expected = new DefaultKeyedValues();
+		expected.addValue("key1", 300);
+		expected.addValue("key2", 100);
+		expected.addValue("key3", 200);
+		
+		d1.sortByKeys(SortOrder.ASCENDING);
+		
+		assertEquals(d1.getKeys(),  expected.getKeys());
 	}
 
 	@Test
 	public void testSortByValues() {
-		assertTrue(true);
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		d1.addValue("key1", 200);
+		d1.addValue("key2", 400);
+		d1.addValue("key3", 100);
+		
+		DefaultKeyedValues expected = new DefaultKeyedValues();
+		expected.addValue("key3", 100);
+		expected.addValue("key1", 200);
+		expected.addValue("key2", 400);
+		
+		d1.sortByValues(SortOrder.ASCENDING);
+		
+		assertEquals(d1.getKeys(),  expected.getKeys());
 	}
 
 }
