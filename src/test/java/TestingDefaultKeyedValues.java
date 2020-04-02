@@ -3,6 +3,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import javax.swing.SortOrder;
+
+import org.jfree.data.DefaultKeyedValue;
 import org.jfree.data.DefaultKeyedValues;
 import org.junit.Test;
 import org.mockito.BDDMockito;
@@ -127,11 +129,22 @@ public class TestingDefaultKeyedValues {
 		
 	}
 	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testDefaultKeyedValueNullKey() {
+		DefaultKeyedValues d1 = new DefaultKeyedValues();
+		
+		d1.addValue("key1", 100.0);
+		d1.addValue("key2", 340.3);
+		d1.addValue("key3", 100000);
+		d1.addValue("key4", 2.3);
+		d1.addValue("key5", 600);
+		
+		//Testing for key in the beginning
+		int n = d1.getIndex(null);	
+	}
+	
 	@Test
 	public void testGetIndexBegin() {
-		Args mockArgs = Mockito.mock(Args.class);
-		Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
-		
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		d1.addValue("key1", 100.0);
@@ -148,9 +161,6 @@ public class TestingDefaultKeyedValues {
 	
 	@Test
 	public void testGetIndexEnd() {
-		Args mockArgs = Mockito.mock(Args.class);
-		//Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
-		
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		d1.addValue("key1", 100.0);
@@ -167,9 +177,6 @@ public class TestingDefaultKeyedValues {
 	
 	@Test
 	public void testGetIndexNormal() {
-		Args mockArgs = Mockito.mock(Args.class);
-	//	Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
-		
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		d1.addValue("key1", 100.0);
@@ -186,9 +193,6 @@ public class TestingDefaultKeyedValues {
 	
 	@Test
 	public void testGetIndexUnavailable() {
-		Args mockArgs = Mockito.mock(Args.class);
-	//	Mockito.doNothing().when(mockArgs).nullNotPermitted(Comparable.class,"key");
-		
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		
 		d1.addValue("key1", 100.0);
