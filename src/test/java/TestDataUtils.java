@@ -23,6 +23,16 @@ public class TestDataUtils {
 		assertTrue(DataUtils.equal(arr1,arr2));
  	}
 	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testCloneNull() {
+		double[][] arr2 = DataUtils.clone(null);
+	}
+	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testCalculateColumnTotalNull() {
+		double n = DataUtils.calculateColumnTotal(null,10);
+	}
+	
 	@Test
 	public void testCalculateColumnTotal() {
 		Values2D data = Mockito.mock(Values2D.class);
@@ -73,6 +83,126 @@ public class TestDataUtils {
 		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(0,10);
 
 		double n = DataUtils.calculateColumnTotal(data,10);
+	}
+	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testCalculateColumnTotalArrayColumnRowNull() {
+		int ar[] = {1,2};
+		double n = DataUtils.calculateColumnTotal(null,10,ar);
+	}
+	
+	@Test
+	public void testCalculateColumnTotalArrayColumnRow() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+
+		int ar[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,ar);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateColumnTotalArrayColumnRowUpper() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateColumnTotalArrayColumnRowLower() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateColumnTotalArrayColumnRowOutOfBound() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(10);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(1,-1);
+		
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,-1,arr);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateColumnTotalArrayColumnRowOutOfBound2() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(10);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(1,10);
+		
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,arr);
+	}
+
+	@Test
+	public void testCalculateColumnTotalRowTestUpperInterval() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+		
+		int arr[]= {1,9};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateColumnTotalRowTestLowerInterval() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(11);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+		
+		int arr[]= {0,3};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateColumnTotalRowTestLowerIntervalException() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(11);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(-1,10);
+
+		int arr[]= {-1,3};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,arr);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateColumnTotalRowTestUpperIntervalException() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getRowCount()).thenReturn(11);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(10,10);
+
+		int arr[]= {3,10};
+		
+		double n = DataUtils.calculateColumnTotal(data,10,arr);
+	}
+	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testCalculateRowTotalNull() {
+		double n = DataUtils.calculateRowTotal(null,10);
 	}
 	
 	@Test
@@ -127,12 +257,137 @@ public class TestDataUtils {
 		double n = DataUtils.calculateRowTotal(data,10);
 	}
 	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testCalculateRowTotalArrayRowColumnsNull() {
+		int[] a = {1,2,3};
+		DataUtils.calculateRowTotal(null, 10, a);
+	}
+	@Test
+	public void testCalculateRowTotalArrayRowColumn() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+		
+		int[] ar= {1,2}; 
+		
+		double n = DataUtils.calculateRowTotal(data,10,ar);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateRowTotalArrayColumnRowUpper() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(10);
+		Mockito.when(data.getRowCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+
+		int[] ar= {1,2};
+		
+		double n = DataUtils.calculateRowTotal(data,data.getRowCount()-1,ar);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateRowTotalArrayRowColumnLower() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+
+		int[] ar= {1,2};
+		
+		double n = DataUtils.calculateRowTotal(data,0,ar);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateRowTotalArrayRowColumnOutOfBound() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(10);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(-1,1);
+
+		int[] ar= {1,2};
+		
+		double n = DataUtils.calculateRowTotal(data,-1,ar);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateRowTotalArrayRowColumnOutOfBound2() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(10);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(10,1);
+
+		int[] ar= {1,2};
+		
+		double n = DataUtils.calculateRowTotal(data,10,ar);
+	}
+	
+	@Test
+	public void testCalculateRowTotalColumnTestUpperInterval() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(10);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+		
+		int arr[]= {1,9};
+		
+		double n = DataUtils.calculateRowTotal(data,10,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateRowTotalColumnTestLowerInterval() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(11);
+		Mockito.when(data.getValue(anyInt(),anyInt())).thenReturn(1.0);
+		
+		int arr[]= {0,3};
+		
+		double n = DataUtils.calculateRowTotal(data,10,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateRowTotalColumnTestLowerIntervalException() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(11);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(10,-1);
+
+		int arr[]= {-1,3};
+		
+		double n = DataUtils.calculateRowTotal(data,10,arr);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateRowTotalColumnTestUpperIntervalException() {
+		Values2D data = Mockito.mock(Values2D.class);
+		Mockito.when(data.getColumnCount()).thenReturn(11);
+		Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(data).getValue(10,10);
+
+		int arr[]= {3,10};
+		
+		double n = DataUtils.calculateRowTotal(data,10,arr);
+	}
+	
 	@Test
 	public void testCreateNumberArray() {
 		double[] arr = {23.4,26.4,2.0,4.5,34.4};
 		Number[] arr2 = DataUtils.createNumberArray(arr);
 		
 		assertTrue(arr2.length == arr.length);
+	}
+	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testCreateNumberArrayNull() {
+		Number[] arr2 = DataUtils.createNumberArray(null);
+	}
+	
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testCreateNumberArray2DNull() {
+		Number[][] arr2 = DataUtils.createNumberArray2D(null);
 	}
 	
 	@Test
@@ -159,7 +414,10 @@ public class TestDataUtils {
 		assertTrue(arr2[0].length == 3);
 	}
 	
-	@Test
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testGetCumulativePercentageNull() {
+		DataUtils.getCumulativePercentages(null);
+	}
 	public void testgetCumulativePercentagesUpper() {
 		KeyedValues data = Mockito.mock(KeyedValues.class);
 		Mockito.when(data.getItemCount()).thenReturn(4);

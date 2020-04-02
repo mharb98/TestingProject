@@ -23,9 +23,6 @@ public class TestingDefaultKeyedValue {
 	
 	@Test
 	public void testDefaultKeyedValueNull() {
-		Args mockArgs = Mockito.mock(Args.class);
-		//Mockito.doNothing().when(mockArgs).nullNotPermitted("key","key");
-		
 		DefaultKeyedValue d1 = new DefaultKeyedValue("key",null);
 		assertEquals("key",d1.getKey());
 		assertEquals(null,d1.getValue());
@@ -33,16 +30,16 @@ public class TestingDefaultKeyedValue {
 	
 	@Test
 	public void testDefaultKeyedValueNumber() {
-		Args mockArgs = Mockito.mock(Args.class);
-		Mockito.doNothing().when(mockArgs).nullNotPermitted("key","key");
-		
 		int k = 100;
-		
 		DefaultKeyedValue d1 = new DefaultKeyedValue("key",k);
 		assertEquals("key",d1.getKey());
 		assertEquals(100,d1.getValue());
 	}
 
+	@Test(expected = java.lang.IllegalArgumentException.class)
+	public void testDefaultKeyedValueNullKey() {
+		DefaultKeyedValue d1 = new DefaultKeyedValue(null,100);
+	}
 	
 	@Test
 	public void testGetKey() {
