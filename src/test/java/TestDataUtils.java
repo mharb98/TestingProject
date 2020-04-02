@@ -11,7 +11,7 @@ public class TestDataUtils {
 
 	@Test
 	public void testEqual() {
-		
+		assertTrue(true);
 	}
 
 	
