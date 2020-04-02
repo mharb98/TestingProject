@@ -10,10 +10,37 @@ import org.junit.Test;
 public class TestDataUtils {
 
 	@Test
-	public void testEqual() {
-		assertTrue(true);
+	public void testEqualArrayNull() {
+		double[][] a = {{1,2},{3,4}};
+		assertFalse(DataUtils.equal(a, null));
 	}
 
+	@Test
+	public void testEqualArrayArray() {
+		double[][] a = {{1,2},{3,4}};
+		double[][] b = {{1,2},{3,4}};
+		assertTrue(DataUtils.equal(a, b));
+	}
+	
+	@Test
+	public void testEqualArrayArray2() {
+		double[][] a = {{1,2},{3,4}};
+		double[][] b = {{1,2},{3,4},{5,6}};
+		assertFalse(DataUtils.equal(a, b));
+	}
+	
+	@Test
+	public void testEqualNullArray() {
+		double[][] a = {{1,2},{3,4}};
+		assertFalse(DataUtils.equal(null, a));
+	}
+	
+	@Test
+	public void testEqualArray2Array() {
+		double[][] a = {{1,2},{3,4}};
+		double[][] b = {{1,2},{3,4},{5,6}};
+		assertFalse(DataUtils.equal(b, a));
+	}
 	
 	@Test
 	public void testClone() {
