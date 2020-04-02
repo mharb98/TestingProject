@@ -153,16 +153,30 @@ public class TestingKeyedValuedComparator {
 	}
 	
 	@Test
-	public void testCompare_ByKey() {
+	public void testCompare_ByKey_Ascending() {
 		KeyedValue key1 = Mockito.mock(KeyedValue.class);
 		KeyedValue key2 = Mockito.mock(KeyedValue.class);
 		
 		Mockito.when(key1.getKey()).thenReturn("key1");
 		Mockito.when(key2.getKey()).thenReturn("key2");
-		Mockito.when(key1.getKey().compareTo(key2.getKey())).thenReturn(-1);
 		
-		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_VALUE, SortOrder.ASCENDING);
+		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_KEY, SortOrder.ASCENDING);
 		int order = comparator.compare(key1, key2);
 		assertEquals(order, -1);
 	}
+	
+	@Test
+	public void testCompare_ByKey_Descending() {
+		KeyedValue key1 = Mockito.mock(KeyedValue.class);
+		KeyedValue key2 = Mockito.mock(KeyedValue.class);
+		
+		Mockito.when(key1.getKey()).thenReturn("key1");
+		Mockito.when(key2.getKey()).thenReturn("key2");
+		
+		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_KEY, SortOrder.DESCENDING);
+		int order = comparator.compare(key2, key1);
+		assertEquals(order, -1);
+	}
+	
+	
 }
