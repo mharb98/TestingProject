@@ -143,6 +143,223 @@ public class IntegrationDataUtils {
 	}
 	
 	@Test
+	public void testCalculateColumnTotalArrayColumnRow() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+
+		int ar[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,2,ar);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateColumnTotalArrayColumnRowUpper() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+
+		int arr[]= {1,3};
+		
+		double n = DataUtils.calculateColumnTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateColumnTotalArrayColumnRowLower() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		int arr[]= {0,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testCalculateColumnTotalArrayColumnRowOutOfBound() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,4,arr);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateColumnTotalArrayColumnRowOutOfBound2() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,-1,arr);
+	}
+
+	@Test
+	public void testCalculateColumnTotalRowTestUpperInterval() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {1,3};
+		
+		double n = DataUtils.calculateColumnTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateColumnTotalRowTestLowerInterval() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {0,2};
+		
+		double n = DataUtils.calculateColumnTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateColumnTotalRowTestLowerIntervalException() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+
+		int arr[]= {-1,3};
+		
+		double n = DataUtils.calculateColumnTotal(data,2,arr);
+	}
+	
+	@Test
 	public void testCalculateRowTotal() {
 		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
 		
@@ -268,7 +485,224 @@ public class IntegrationDataUtils {
 		data.addValue(1.0, "row3", "col2");
 		data.addValue(1.0, "row3", "col3");
 		
-		double n = DataUtils.calculateColumnTotal(data,4);
+		double n = DataUtils.calculateRowTotal(data,4);
+	}
+	
+	@Test
+	public void testCalculateRowTotalArrayColumn() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+
+		int ar[]= {1,2};
+		
+		double n = DataUtils.calculateRowTotal(data,2,ar);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateRowTotalArrayColumnRowUpper() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+
+		int arr[]= {1,3};
+		
+		double n = DataUtils.calculateRowTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateRowTotalArrayColumnRowLower() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		int arr[]= {0,2};
+		
+		double n = DataUtils.calculateRowTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testCalculateRowTotalArrayColumnRowOutOfBound() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateRowTotal(data,4,arr);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateRowTotalArrayColumnRowOutOfBound2() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {1,2};
+		
+		double n = DataUtils.calculateRowTotal(data,-1,arr);
+	}
+
+	@Test
+	public void testCalculateRowTotalRowTestUpperInterval() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {1,3};
+		
+		double n = DataUtils.calculateRowTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test
+	public void testCalculateRowTotalRowTestLowerInterval() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+		
+		int arr[]= {0,2};
+		
+		double n = DataUtils.calculateRowTotal(data,2,arr);
+		
+		assertTrue(n == 2.0);
+	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCalculateRowTotalRowTestLowerIntervalException() {
+		DefaultKeyedValues2D data = new DefaultKeyedValues2D();
+		
+		data.addValue(1.0, "row0", "col0");
+		data.addValue(1.0, "row0", "col1");
+		data.addValue(1.0, "row0", "col2");
+		data.addValue(1.0, "row0", "col3");
+		data.addValue(1.0, "row1", "col0");
+		data.addValue(1.0, "row1", "col1");
+		data.addValue(1.0, "row1", "col2");
+		data.addValue(1.0, "row1", "col3");
+		data.addValue(1.0, "row2", "col0");
+		data.addValue(1.0, "row2", "col1");
+		data.addValue(1.0, "row2", "col2");
+		data.addValue(1.0, "row2", "col3");
+		data.addValue(1.0, "row3", "col0");
+		data.addValue(1.0, "row3", "col1");
+		data.addValue(1.0, "row3", "col2");
+		data.addValue(1.0, "row3", "col3");
+
+		int arr[]= {-1,3};
+		
+		double n = DataUtils.calculateRowTotal(data,2,arr);
 	}
 	
 	@Test
