@@ -335,5 +335,27 @@ public class IntegrationDataUtils {
 		
 		assertTrue(n == 0.25);
 	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testgetCumulativePercentagesLowerException() {
+		DefaultKeyedValues data = retArr2();
+		
+		DefaultKeyedValues d = new DefaultKeyedValues();
+		
+		d = (DefaultKeyedValues) DataUtils.getCumulativePercentages(data);
+		
+		Double n = (Double) d.getValue(-1);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testgetCumulativePercentagesUpperException() {
+		DefaultKeyedValues data = retArr2();
+		
+		DefaultKeyedValues d = new DefaultKeyedValues();
+		
+		d = (DefaultKeyedValues) DataUtils.getCumulativePercentages(data);
+		
+		Double n = (Double) d.getValue(4);
+	}
 
 }
