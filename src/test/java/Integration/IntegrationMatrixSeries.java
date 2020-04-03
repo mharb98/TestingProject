@@ -9,80 +9,6 @@ import org.junit.Test;
 public class IntegrationMatrixSeries {
 
 	@Test
-	public void constructor_validArgs() {
-		int colCount = 4;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		assertEquals(colCount, matrix.getColumnsCount());
-		assertEquals(rowCount, matrix.getRowCount());
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void constructor_invalidArgs() {
-		int colCount = 4;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries(null, rowCount, colCount);
-	}
-	
-	@Test
-	public void getColumnsCount() {
-		int colCount = 4;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		assertEquals(colCount, matrix.getColumnsCount());
-	}
-	
-	@Test
-	public void getColumnsCount_zeroColumns() {
-		int colCount = 0;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		assertEquals(colCount, matrix.getColumnsCount());
-	}
-	
-	@Test
-	public void getRowCount() {
-		int colCount = 4;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		assertEquals(rowCount, matrix.getRowCount());
-	}
-	
-	@Test(expected = ArrayIndexOutOfBoundsException.class)
-	public void getRowCount_zeroColumns() {
-		int colCount = 3;
-		int rowCount = 0;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		int rows = matrix.getRowCount();
-	}
-	
-	@Test
-	public void update() {
-		int colCount = 3;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		matrix.update(0, 0, 3);
-		assertTrue(3 == matrix.get(0, 0));
-	}
-	
-	@Test
-	public void get_validIndex() {
-		int colCount = 3;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		matrix.update(0, 0, 3);
-		assertTrue(3 == matrix.get(0, 0));
-	}
-	
-	@Test(expected = ArrayIndexOutOfBoundsException.class)
-	public void get_invalidIndex() {
-		int colCount = 3;
-		int rowCount = 3;
-		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
-		double element = matrix.get(5, 5);
-	}
-	
-	@Test
 	public void getItemCount()
 	{
 		int colCount = 3;
@@ -187,15 +113,6 @@ public class IntegrationMatrixSeries {
 		int colCount2 = 4;
 		MatrixSeries matrix2 = new MatrixSeries("matrix2", rowCount, colCount);
 		assertTrue(!matrix1.equals(matrix2));
-	}
-	
-	@Test
-	public void equals_ArgNotMatrixSeries() {
-		int colCount = 3;
-		int rowCount = 3;
-		MatrixSeries matrix1 = new MatrixSeries("matrix", rowCount, colCount);
-		Object invalid_argument = 3;
-		assertTrue(!matrix1.equals(invalid_argument));
 	}
 	
 	@Test
