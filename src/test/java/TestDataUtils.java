@@ -441,6 +441,14 @@ public class TestDataUtils {
 		assertTrue(arr2[0].length == 3);
 	}
 	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testCreateNumberArray2UupperException() {
+		double[][] arr = {{1.2,3.4,5.6},{5.6,3.5,4.3},{3.4,7.5,7.3}};
+		Number[][] arr2 = DataUtils.createNumberArray2D(arr);
+		
+		int n = arr[3].length;
+	}
+	
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testGetCumulativePercentageNull() {
 		DataUtils.getCumulativePercentages(null);
@@ -494,4 +502,35 @@ public class TestDataUtils {
 		
 		assertTrue(n == 0.25);
 	}
+	
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void testgetCumulativePercentagesLowerException() {
+		KeyedValues data = Mockito.mock(KeyedValues.class);
+		Mockito.when(data.getItemCount()).thenReturn(4);
+		Mockito.when(data.getValue(anyInt())).thenReturn(1.0);
+		Mockito.when(data.getKey(anyInt())).thenReturn("key1").thenReturn("key2").thenReturn("key3")
+		.thenReturn("key4");
+		
+		DefaultKeyedValues d = new DefaultKeyedValues();
+		
+		d = (DefaultKeyedValues) DataUtils.getCumulativePercentages(data);
+		
+		Double n = (Double) d.getValue(-1);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testgetCumulativePercentagesUpperException() {
+		KeyedValues data = Mockito.mock(KeyedValues.class);
+		Mockito.when(data.getItemCount()).thenReturn(4);
+		Mockito.when(data.getValue(anyInt())).thenReturn(1.0);
+		Mockito.when(data.getKey(anyInt())).thenReturn("key1").thenReturn("key2").thenReturn("key3")
+		.thenReturn("key4");
+		
+		DefaultKeyedValues d = new DefaultKeyedValues();
+		
+		d = (DefaultKeyedValues) DataUtils.getCumulativePercentages(data);
+		
+		Double n = (Double) d.getValue(4);
+	}
+
 }
