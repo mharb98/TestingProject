@@ -14,6 +14,7 @@ public class TestingMatrixSeries {
 		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
 		assertEquals(colCount, matrix.getColumnsCount());
 		assertEquals(rowCount, matrix.getRowCount());
+		assertTrue(matrix instanceof MatrixSeries);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -48,7 +49,7 @@ public class TestingMatrixSeries {
 	}
 	
 	@Test(expected = ArrayIndexOutOfBoundsException.class)
-	public void getRowCount_zeroColumns() {
+	public void getRowCount_zeroRows() {
 		int colCount = 3;
 		int rowCount = 0;
 		MatrixSeries matrix = new MatrixSeries("matrix name", rowCount, colCount);
