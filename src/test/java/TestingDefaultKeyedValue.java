@@ -81,7 +81,7 @@ public class TestingDefaultKeyedValue {
 	}
 	
 	@Test
-	public void testEqualsObjectEqual() throws CloneNotSupportedException {
+	public void testEqualsObjectEqual() {
 		DefaultKeyedValue d1 = new DefaultKeyedValue("key",100);
 		DefaultKeyedValue d2 = new DefaultKeyedValue("key",100);
 		
@@ -91,7 +91,7 @@ public class TestingDefaultKeyedValue {
 	}
 
 	@Test
-	public void testEqualsObjectNotEqual() throws CloneNotSupportedException {
+	public void testEqualsObjectNotEqual() {
 		DefaultKeyedValue d1 = new DefaultKeyedValue("key",100);
 		DefaultKeyedValue d4 = new DefaultKeyedValue("key",100);
 		
@@ -101,7 +101,7 @@ public class TestingDefaultKeyedValue {
 	}
 	
 	@Test
-	public void testEqualsObjectNotEquakey() throws CloneNotSupportedException {
+	public void testEqualsObjectNotEquakey(){
 		DefaultKeyedValue d1 = new DefaultKeyedValue("key",100);
 		DefaultKeyedValue d4 = new DefaultKeyedValue("key2",100);
 		
