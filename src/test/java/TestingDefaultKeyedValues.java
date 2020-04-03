@@ -250,7 +250,7 @@ public class TestingDefaultKeyedValues {
 		assertEquals("key1", d1.getKey(0));
 	}
 	
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testGetNullKey() {
 		DefaultKeyedValues d1 = new DefaultKeyedValues();
 		d1.addValue(null, 100);
