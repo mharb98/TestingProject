@@ -12,56 +12,6 @@ import org.junit.Test;
 
 public class IntegrationKeyedValueComparator {
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorNullOrder() {
-		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_VALUE, null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorNullType() {
-		KeyedValueComparator comparator = new KeyedValueComparator(null, SortOrder.ASCENDING);
-	}
-	
-	@Test
-	public void testConstructorProperArgs() {
-		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_VALUE, SortOrder.ASCENDING);
-		assertTrue(comparator instanceof KeyedValueComparator);
-	}
-	
-	@Test
-	public void testGetType() {
-		KeyedValueComparatorType currentType = KeyedValueComparatorType.BY_VALUE;
-		KeyedValueComparator comparator = new KeyedValueComparator(currentType, SortOrder.ASCENDING);
-		KeyedValueComparatorType type = comparator.getType();
-		assertEquals(type, currentType);
-	}
-	
-	@Test
-	public void testGetOrder() {
-		SortOrder currentOrder = SortOrder.ASCENDING;
-		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_VALUE, currentOrder);
-		SortOrder order = comparator.getOrder();
-		assertEquals(order, currentOrder);
-	}
-	
-	@Test
-	public void testCompareArg1NullObj() {
-		KeyedValue key1 = null;
-		KeyedValue key2 = new DefaultKeyedValue("key2", 120.0);
-		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_VALUE, SortOrder.ASCENDING);
-		int order = comparator.compare(key1, key2);
-		assertEquals(order, 1);
-	}
-	
-	@Test
-	public void testCompareArg2NullObj() {
-		KeyedValue key1 = new DefaultKeyedValue("key1", 100.0);
-		KeyedValue key2 = null;
-		KeyedValueComparator comparator = new KeyedValueComparator(KeyedValueComparatorType.BY_VALUE, SortOrder.ASCENDING);
-		int order = comparator.compare(key1, key2);
-		assertEquals(order, -1);
-	}
-	
 	@Test
 	public void testCompare_ByValue_Arg1NullValue() {
 		KeyedValue key1 = new DefaultKeyedValue("key1", null);
